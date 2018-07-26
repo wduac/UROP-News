@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+
+
+<script src='https://d3js.org/d3.v3.min.js'></script>
+<script src='js/d3.dependencyWheel.js'></script>
+<script src='js/composerBuilder.js'></script>
+<script>
+  function submit() {
+    console.log('123');
+    return false;
+  }
+</script>
+<body>
+  <input type='text' placeholder="Choose keyword..">
+  <div class='chart'></div>
+
+  <script>
+
+  /* TO RUN THE DEVELOPMENT SERVER: http-server -c-1 */
+
+  d3.json('web_crawler/dependencyData.json', function(d) {
+    var data = {
+      packageNames: d.packageNames,
+      matrix: d.matrix
+    };
+
+    var chart = d3.chart.dependencyWheel();
+
+    d3.select('div')
+      .datum(data)
+      .call(chart);
+  })
+
+  </script>
+
+</body>
+
+</html>
