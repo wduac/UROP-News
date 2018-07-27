@@ -12,11 +12,29 @@
   }
 </script>
 <body>
-  <input type='text' placeholder="Choose keyword..">
+  <input id="article" type='text' placeholder="Please input your article">
+    <button onclick="getArticle()">submit</button>
+    <button onclick="alertArticle()">alert</button>
+    <input id="float" type="number">
+    <button onclick="getNumber()">submit</button>
+    <br/>
+    <br/>
   <div class='chart'></div>
-
+  
   <script>
-
+   input_article=''
+  function getArticle(){
+      input_article=document.getElementById('article').value
+  }
+  function alertArticle(){
+      alert(input_)
+  }
+   number=0
+   function getNumber()
+    {
+        number=document.getElementById('float').value
+    }
+  
   var data = {
    "packageNames": [
     "HKUST Business School Names Donald P. Jacobs Classroom",
