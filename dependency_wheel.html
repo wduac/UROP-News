@@ -3,14 +3,9 @@
 <html>
 
 <script src='https://d3js.org/d3.v3.min.js'></script>
-<script src='js/d3.dependencyWheel.js'></script>
-<script src='js/composerBuilder.js'></script>
-<script>
-  function submit() {
-    console.log('123');
-    return false;
-  }
-</script>
+<script src='d3.dependencyWheel.js'></script>
+<script src='composerBuilder.js'></script>
+
 <body>
   <input id="article" type='text' placeholder="Please input your article">
     <button onclick="getArticle()">submit</button>
@@ -19,23 +14,83 @@
     <button onclick="getNumber()">submit</button>
     <br/>
     <br/>
+
   <div class='chart'></div>
-  
+
   <script>
-   input_article=''
-  function getArticle(){
+    /* ––– input article and similarity functions ––– */
+    input_article=''
+    function getArticle() {
       input_article=document.getElementById('article').value
-  }
-  function alertArticle(){
-      alert(input_)
-  }
-   number=0
-   function getNumber()
-    {
-        number=document.getElementById('float').value
     }
-  
-  var data = {
+    number=0
+    function getNumber() {
+      number=document.getElementById('float').value
+    }
+    function alertArticle() {
+      alert(input_)
+    }
+
+    /* ––– word count and percentage similar functions ––– */
+
+    /* takes a string and returns the number of times each word occurs */
+    function countWords(article) {
+      wordCount = []
+      uniqueWords = []
+      /* create an array of the words in the string */
+      wordArray = article.split(' ')
+
+      /* make a array of unique words in the string */
+      wordArray.forEach(function(word) {
+        if(!uniqueWords.includes(word)) {
+          uniqueWords.push(word)
+        }
+      })
+      /* count the number of times each unique word appears in the original string */
+      uniqueWords.forEach(function(uniqueWord) {
+        count = 0
+        wordArray.forEach(function(word) {
+          if(uniqueWord == word) {
+            count += 1
+          }
+        })
+        wordCount.push([uniqueWord, count])
+      })
+
+      return wordCount
+    }
+
+    /* takes a count of words and returns the the percentage similarity */
+    function percentageSimilar(words1, words2) {
+      similarCount = 0
+      numOfWords = 0
+
+      /* compare every word in each array */
+      words1.forEach(function(word1) {
+        /* add the words in words1 to the number of words */
+        numOfWords += word1[1]
+        words2.forEach(function(word2) {
+          /* add to the similar count of the words are the same */
+          if(word1[0] == word2[0]) {
+            if(word1[1] <= word2[1]) {
+              similarCount += word1[1]*2
+            } else {
+              similarCount += word2[1]*2
+            }
+          }
+        })
+      })
+
+      /* add the words in words2 to the number of words */
+      words2.forEach(function(word2) {
+        numOfWords += word2[1]
+      })
+
+      similarity = similarCount/numOfWords
+      return similarity
+    }
+
+    var data = {
    "packageNames": [
     "HKUST Business School Names Donald P. Jacobs Classroom",
     "Kellogg-HKUST Executive MBA 20th Anniversary Management Conference",
@@ -3823,7 +3878,6 @@
   }
 
   /* TO RUN THE DEVELOPMENT SERVER: http-server -c-1 */
-
 
     var chart = d3.chart.dependencyWheel();
 
